@@ -1,0 +1,14 @@
+{%extends 'applipizza/base.html'%}
+
+{%block title%}Les compositions{%endblock%}
+
+{%block content%}
+    <h2>Voici nos {{ compositions|length }} compositions</h2>
+    <ul>
+        {% for comp in compositions %}
+            <li>
+                {{ comp }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

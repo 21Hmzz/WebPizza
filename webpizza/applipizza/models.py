@@ -12,7 +12,7 @@ class Ingredient(models.Model):
 
     def __str__(self):
 
-        return "ingrédient" + self.nomIngredient
+        return "ingrédient " + self.nomIngredient
 
 
 class Pizza(models.Model):
@@ -27,7 +27,7 @@ class Pizza(models.Model):
 
     def __str__(self):
 
-        return "Pizza " + self.nomPizza + " prix =  " + str(self.prix) + "€"
+        return "Pizza " + self.nomPizza + " : " + str(self.prix) + "€"
 
 
 class Composition(models.Model):
@@ -44,5 +44,4 @@ class Composition(models.Model):
     def __str__(self):
         ing = self.ingredient
         piz = self.pizza
-        return ing.__str__() + 'fait partie de la pizza '
-        + piz.__str__() + ' (quantité = ' + self.quantite + ')'
+        return "ingrédient " + ing.nomIngredient + " fait partie de la pizza " + piz.nomPizza + " (prix = "+str(piz.prix)+"€) (quantité = " + self.quantite+")"

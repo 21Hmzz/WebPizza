@@ -21,4 +21,12 @@ from applipizza import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pizzas/', views.pizzas),
+    path('pizzas/<int:pizza_id>', views.pizza),
+    path('pizzas/add', views.formulaireCreationPizza),
+    path('pizzas/create', views.creerPizza),
+    path('ingredients/', views.ingredients),
+    path('ingredients/add', views.formulaireCreationIngredient),
+    path('ingredients/create', views.creerIngredient),
+
+    path('compositions/', views.compositions)
 ]

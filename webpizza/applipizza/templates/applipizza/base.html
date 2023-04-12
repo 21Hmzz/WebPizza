@@ -1,0 +1,33 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'applipizza/css/styles.css' %}">
+    <link rel="icon" href="{% static 'applipizza/img/pizza.png' %}">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div><a href="/pizzas/">Les pizzas</a></div>
+            <div><a href="/pizzas/add">Créer une pizza</a></div>
+            <div><a href="/ingredients/">Les ingredients</a></div>
+            <div><a href="/ingredients/add">Créer un ingrédient</a></div>
+            <div><a href="/compositions/">Les compositions</a></div>
+
+        </nav>
+    </header>
+    <hr>
+    <main>
+        {% block content %} {% endblock %}
+    </main>
+    <footer>
+        <p>© 2023 - WebPizza</p>
+    </footer>
+    
+</body>
+</html>

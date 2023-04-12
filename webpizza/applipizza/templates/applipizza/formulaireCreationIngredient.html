@@ -1,0 +1,14 @@
+{%extends 'applipizza/base.html'%}
+
+{%block title%}création d'un ingrédient{%endblock%}
+
+{%block content%}
+<h2>
+    Création d'un ingrédient
+</h2>
+<form class="adding" action="/ingredients/create" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <input type="submit" value="Créer l'ingrédient">
+</form>
+{% endblock %}

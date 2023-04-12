@@ -1,0 +1,15 @@
+{%extends 'applipizza/base.html'%}
+
+{%block title%}création d'une pizza{%endblock%}
+
+{%block content%}
+<div class="success">
+    <h2>Pizza crée avec succès </h2>
+    <p>
+        {{ nom }} <br>
+        Prix : {{ prix }} €
+    </p>
+    <small>Votre pizza n'a pas encore d'ingrédients</small>
+</div>
+
+{% endblock %}
