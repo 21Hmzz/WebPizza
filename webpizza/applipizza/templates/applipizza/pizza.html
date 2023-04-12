@@ -16,6 +16,7 @@
         <tr>
             <th>Ingredient</th>
             <th>Quantité</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -23,10 +24,23 @@
     <tr>
         <td>{{ ing.nom}}</td>
         <td>{{ ing.qte }}</td>
+        <td class="td_delete">
+            <a href="/pizzas/{{pizza.idPizza}}/deleteIngredient/{{ ing.idIngredient }}/">Supprimer</a>
     </tr>
    
 {% endfor %}
 </tbody>
 </table>
+<hr>
+<div class="form">
+  <h2>
+    Ajouter un ingrédient
+  </h2>
+  <form class="addcomp_form" action="/pizzas/{{pizza.idPizza}}/addIngredient" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Ajouter">
+  </form>
+</div>
     
 {% endblock %}

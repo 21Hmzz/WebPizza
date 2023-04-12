@@ -34,6 +34,75 @@ def pizza(request, pizza_id):
     )
 
 
+def ajouterIngredientDansPizza(request, pizza_id):
+    form = CompositionForm(request.POST)
+    if form.is_valid():
+        ing = form.cleaned_data['ingredient']
+        qte = form.cleaned_data['quantite']
+        compo = Composition()
+        compo.pizza = Pizza.objects.get(idPizza=pizza_id)
+        compo.ingredient = Ingredient.objects.get(
+            idIngredient=ing.idIngredient)
+        compo.quantite = qte
+        compo.save()
+
+        # regeneration de la vue pizza
+
+        laPizza = Pizza.objects.get(idPizza=pizza_id)
+        form = CompositionForm()
+        compo = Composition.objects.filter(pizza=pizza_id)
+        listeIngredients = []
+        for c in compo:
+            ing = Ingredient.objects.get(
+                idIngredient=c.ingredient.idIngredient)
+            listeIngredients.append(
+                {"nom": ing.nomIngredient, "qte": c.quantite})
+
+        return render(
+            request,
+            "applipizza/pizza.html",
+            {"pizza": laPizza, "compo": listeIngredients, "form": form},
+
+        )
+
+
+def supprimerPizza(request, pizza_id):
+    laPizza = Pizza.objects.get(idPizza=pizza_id)
+    laPizza.delete()
+    LesPizzas = Pizza.objects.all()
+    return render(
+        request,
+        "applipizza/pizzas.html",
+        {"pizzas": LesPizzas},
+    )
+
+
+def afficherFormulaireModificationPizza(request, pizza_id):
+    laPizza = Pizza.objects.get(idPizza=pizza_id)
+    form = PizzaForm(instance=laPizza)
+    return render(
+        request,
+        "applipizza/formulaireModificationPizza.html",
+        {"pizza": laPizza, "form": form},
+    )
+
+
+def modifierPizza(request, pizza_id):
+    form = PizzaForm(request.POST)
+    if form.is_valid():
+        nomPizza = form.cleaned_data['nomPizza']
+        prix = form.cleaned_data['prix']
+        pizza = Pizza.objects.get(idPizza=pizza_id)
+        pizza.nomPizza = nomPizza
+        pizza.prix = prix
+        pizza.save()
+        return render(
+            request,
+            "applipizza/traitementFormulaireModificationPizza.html",
+            {"nom": nomPizza, "prix": prix},
+        )
+
+
 def ingredients(request):
 
     lesIngredients = Ingredient.objects.all()

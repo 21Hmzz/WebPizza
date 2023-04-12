@@ -9,6 +9,11 @@
             <li>
                 {{ pizza }}
                 <a href="/pizzas/{{ pizza.idPizza }}">détails sur la pizza</a>
+                <small>               
+                <a href="/pizzas/{{ pizza.idPizza }}/update">Modifier</a>
+                <a href="/pizzas/{{ pizza.idPizza }}/delete">Supprimer</a>
+                </small>
+
             </li>
         {% endfor %}
     </ul>
