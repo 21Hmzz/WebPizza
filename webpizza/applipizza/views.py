@@ -25,7 +25,8 @@ def pizza(request, pizza_id):
 
     for c in compo:
         ing = Ingredient.objects.get(idIngredient=c.ingredient.idIngredient)
-        listeIngredients.append({"nom": ing.nomIngredient, "qte": c.quantite})
+        listeIngredients.append(
+            {"nom": ing.nomIngredient, "qte": c.quantite, "idComposition": c.idComposition})
 
     return render(
         request,
@@ -36,9 +37,15 @@ def pizza(request, pizza_id):
 
 def ajouterIngredientDansPizza(request, pizza_id):
     form = CompositionForm(request.POST)
+    compos = Composition.objects.filter(pizza=pizza_id)
     if form.is_valid():
+
         ing = form.cleaned_data['ingredient']
         qte = form.cleaned_data['quantite']
+        if compos.filter(ingredient=ing).exists():
+            compo = compos.get(ingredient=ing)
+            compo.delete()
+
         compo = Composition()
         compo.pizza = Pizza.objects.get(idPizza=pizza_id)
         compo.ingredient = Ingredient.objects.get(
@@ -56,7 +63,7 @@ def ajouterIngredientDansPizza(request, pizza_id):
             ing = Ingredient.objects.get(
                 idIngredient=c.ingredient.idIngredient)
             listeIngredients.append(
-                {"nom": ing.nomIngredient, "qte": c.quantite})
+                {"nom": ing.nomIngredient, "qte": c.quantite, "idComposition": c.idComposition})
 
         return render(
             request,
@@ -64,6 +71,27 @@ def ajouterIngredientDansPizza(request, pizza_id):
             {"pizza": laPizza, "compo": listeIngredients, "form": form},
 
         )
+
+
+def supprimerIngredientDansPizzaPizza(request, pizza_id, composition_id):
+    compo = Composition.objects.get(idComposition=composition_id)
+    compo.delete()
+    pizza = Pizza.objects.get(idPizza=pizza_id)
+    compoPizza = Composition.objects.filter(pizza=pizza_id)
+    listeIngredients = []
+    for c in compoPizza:
+        ing = Ingredient.objects.get(idIngredient=c.ingredient.idIngredient)
+        listeIngredients.append(
+            {"nom": ing.nomIngredient, "qte": c.quantite, "idComposition": c.idComposition})
+
+    form = CompositionForm()
+    lesPizzas = Pizza.objects.all()
+
+    return render(
+        request,
+        "applipizza/pizzas.html",
+        {"pizzas": lesPizzas},
+    )
 
 
 def supprimerPizza(request, pizza_id):

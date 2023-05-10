@@ -30,6 +30,8 @@ urlpatterns = [
     path('pizzas/add', views.formulaireCreationPizza),
     path('pizzas/<int:pizza_id>/addIngredient',
          views.ajouterIngredientDansPizza),
+    path('pizzas/<int:pizza_id>/deleteIngredient/<int:composition_id>',
+         views.supprimerIngredientDansPizzaPizza),
     path('pizzas/create', views.creerPizza),
     path('ingredients/', views.ingredients),
     path('ingredients/add', views.formulaireCreationIngredient),

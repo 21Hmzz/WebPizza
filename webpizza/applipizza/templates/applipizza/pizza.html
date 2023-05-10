@@ -24,8 +24,9 @@
     <tr>
         <td>{{ ing.nom}}</td>
         <td>{{ ing.qte }}</td>
+
         <td class="td_delete">
-            <a href="/pizzas/{{pizza.idPizza}}/deleteIngredient/{{ ing.idIngredient }}/">Supprimer</a>
+            <a href="/pizzas/{{pizza.idPizza}}/deleteIngredient/{{ing.idComposition }}">Supprimer</a>
     </tr>
    
 {% endfor %}
