@@ -3,7 +3,7 @@
 {%block title%}Les ingrédients{%endblock%}
 
 {%block content%}
-    <h2>Voici nos {{ ingredients|length }} ingrédients</h2>
+    <h2>Voici nos {{ nbIngredients }} ingrédients</h2>
     <table class="tableau_ingredient">
         <thead>
             <tr>
@@ -18,4 +18,13 @@
         {% endfor %}
     </tbody>
     </table>
+    <p class="pagination">
+        {% if ingredients.has_previous %}
+            <a href="?page={{ ingredients.previous_page_number }}">Page précédente</a>
+        {% endif %}
+        <span>Page {{ ingredients.number }} sur {{ ingredients.paginator.num_pages }}.</span>
+        {% if ingredients.has_next %}
+            <a href="?page={{ ingredients.next_page_number }}">Page suivante</a>
+        {% endif %}
+    </p>
 {% endblock %}

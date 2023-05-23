@@ -6,9 +6,9 @@
 <h2>
     Création d'une pizza
 </h2>
-<form class="addpizza" action="/pizzas/create" method="post">
+<form class="addpizza" action="/pizzas/create" method="post" enctype="multipart/form-data"  >
     {% csrf_token %}
-    {{ form.as_div }}
+    {{ form.as_table }}
     <input type="submit" value="Créer la pizza">
 </form>
 {% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'connexion/base.html' %}
+ {%block title%}Connexion{%endblock%}
+ {%block contenu %}
+<div class="login">
+  <h2>Connexion à WebPizza !</h2>
+  <form action="" id="form_login" method="post">
+    {% csrf_token %} 
+    {% if form.non_field_errors %} 
+      {% for error in form.non_field_errors %}
+        <p class="alert alert-danger">{{ error }}</p>
+      {% endfor %}
+    {% endif %}
+    <table>
+      {% for field in form %}
+      <tr>
+        <td>{{ field.label_tag }}</td>
+        <td>{{ field }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit">se connecter</button>
+  </form>
+</div>
+
+<div>
+  <small>
+    Pas encore inscrit ?
+    <a href="{% url 'register' %}"> S'inscrire </a>
+    <br />
+    Mot de passe oublié ?
+    <a href="{% url 'password_reset' %}"> Réinitialiser le mot de passe </a>
+  </small>
+</div>
+{% endblock %}

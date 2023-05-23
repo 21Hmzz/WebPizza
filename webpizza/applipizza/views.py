@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 from applipizza.models import Pizza, Ingredient, Composition
@@ -6,13 +8,20 @@ from applipizza.forms import IngredientForm, PizzaForm, CompositionForm
 
 
 def pizzas(request):
-
     lesPizzas = Pizza.objects.all()
-
+    nbPizzas = Pizza.objects.count()
+    page = request.GET.get('page')
+    paginator = Paginator(lesPizzas, 4)
+    try:
+        lesPizzas = paginator.page(page)
+    except PageNotAnInteger:
+        lesPizzas = paginator.page(1)
+    except EmptyPage:
+        lesPizzas = paginator.page(paginator.num_pages)
     return render(
         request,
         "applipizza/pizzas.html",
-        {"pizzas": lesPizzas},
+        {"pizzas": lesPizzas, "nbPizzas": nbPizzas},
     )
 
 
@@ -134,20 +143,40 @@ def modifierPizza(request, pizza_id):
 def ingredients(request):
 
     lesIngredients = Ingredient.objects.all()
+    nbIngredients = Ingredient.objects.count()
+    page = request.GET.get('page')
+    paginator = Paginator(lesIngredients, 10)
+    try:
+        lesIngredients = paginator.page(page)
+    except PageNotAnInteger:
+        lesIngredients = paginator.page(1)
+    except EmptyPage:
+        lesIngredients = paginator.page(paginator.num_pages)
+
     return render(
         request,
         "applipizza/ingredients.html",
-        {"ingredients": lesIngredients},
+        {"ingredients": lesIngredients, "nbIngredients": nbIngredients},
     )
 
 
 def compositions(request):
 
     lesCompositions = Composition.objects.all()
+    nbCompositions = Composition.objects.count()
+    page = request.GET.get('page')
+    paginator = Paginator(lesCompositions, 10)
+    try:
+        lesCompositions = paginator.page(page)
+    except PageNotAnInteger:
+        lesCompositions = paginator.page(1)
+    except EmptyPage:
+        lesCompositions = paginator.page(paginator.num_pages)
+
     return render(
         request,
         "applipizza/compositions.html",
-        {"compositions": lesCompositions},
+        {"compositions": lesCompositions, "nbCompositions": nbCompositions},
     )
 
 
@@ -186,16 +215,22 @@ def formulaireCreationPizza(request):
 
 
 def creerPizza(request):
-    form = PizzaForm(request.POST)
+    form = PizzaForm(request.POST, request.FILES)
     if form.is_valid():
         nomPizza = form.cleaned_data['nomPizza']
         prix = form.cleaned_data['prix']
+        image = request.FILES['image']
+        
         pizza = Pizza()
         pizza.nomPizza = nomPizza
         pizza.prix = prix
+        pizza.image = image
         pizza.save()
         return render(
             request,
             "applipizza/traitementFormulaireCreationPizza.html",
-            {"nom": nomPizza, "prix": prix},
+            {"nom": nomPizza, "prix": prix, "image": image},
         )
+    print(form._errors)
+    
+ 

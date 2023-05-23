@@ -24,6 +24,8 @@ class Pizza(models.Model):
 
     prix = models.DecimalField(
         max_digits=4, decimal_places=2, verbose_name="Le prix ")
+    
+    image = models.ImageField(upload_to='static/applipizza/img/', verbose_name="L'image de la pizza")
 
     def __str__(self):
 

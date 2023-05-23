@@ -12,7 +12,8 @@ class IngredientForm(ModelForm):
 class PizzaForm(ModelForm):
     class Meta:
         model = Pizza
-        fields = ['nomPizza', 'prix']
+        image = forms.FileField()
+        fields = ['nomPizza', 'prix', 'image']
 
 
 class CompositionForm(ModelForm):

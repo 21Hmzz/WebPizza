@@ -8,7 +8,7 @@
 </h2>
 <form class="adding" action="/ingredients/create" method="post">
     {% csrf_token %}
-    {{ form.as_div }}
+    {{ form.as_table }}
     <input type="submit" value="Créer l'ingrédient">
 </form>
 {% endblock %}

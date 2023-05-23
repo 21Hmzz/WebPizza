@@ -1,0 +1,9 @@
+{% extends 'connexion/base.html' %}
+
+
+{%block title%}Au revoir{%endblock%}
+
+{% block contenu %}
+<h2>Nous espérons vous revoir bientôt !</h2>
+<a href="{% url 'login' %}">Se reconnecter</a>
+{% endblock %}

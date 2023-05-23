@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{% static 'applipizza/css/styles.css' %}">
     <link rel="icon" href="{% static 'applipizza/img/pizza.png' %}">
     <title>{% block title %} {% endblock %}</title>
@@ -13,11 +14,25 @@
 <body>
     <header>
         <nav>
+            {% if user.is_authenticated %}
             <div><a href="/pizzas/">Les pizzas</a></div>
             <div><a href="/pizzas/add">Créer une pizza</a></div>
             <div><a href="/ingredients/">Les ingredients</a></div>
             <div><a href="/ingredients/add">Créer un ingrédient</a></div>
             <div><a href="/compositions/">Les compositions</a></div>
+            <div class="log_info">
+
+            <div id="logout">
+                Bienvenue, {{ user }}
+                <a class="logoutbtn" href="{% url 'logout' %}"><i class='bx bxs-log-out'></i></a>
+            </div>
+            {% else %}
+            <div id="logout">
+                <a href="{% url 'login' %}">Connexion</a>
+            </div>
+
+            {% endif %}
+        </div>
 
         </nav>
     </header>

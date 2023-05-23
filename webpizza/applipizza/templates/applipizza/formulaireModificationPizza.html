@@ -6,7 +6,7 @@
     <h2>Modification d'une pizza</h2>
     <form action="/pizzas/{{ pizza.idPizza}}/updated" method="post">
         {% csrf_token %}
-        {{ form.as_div }}
+        {{ form.as_p }}
         <input type="submit" value="Modifier">
 
     </form>

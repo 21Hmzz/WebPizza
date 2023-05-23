@@ -1,12 +1,14 @@
 {% extends 'applipizza/base.html' %}
+{% load static %}
 
 {% block title %}Les pizzas{% endblock %}
 
 {% block content %}
-    <h2>Voici nos {{ pizzas|length }} pizzas</h2>
+    <h2 style="font-family: 'Darumadrop One', cursive;">Voici nos {{ nbPizzas }} pizzas</h2>
     <ul class="allpizzas">
         {% for pizza in pizzas %}
             <li>
+                <img src="/{{ pizza.image }}" alt="" width="80" height="80">
                 {{ pizza }}
                 <a href="/pizzas/{{ pizza.idPizza }}">détails sur la pizza</a>
                 <small>               
@@ -17,6 +19,15 @@
             </li>
         {% endfor %}
     </ul>
+    <p class="pagination">
+        {% if pizzas.has_previous %}
+            <a href="?page={{ pizzas.previous_page_number }}">Page précédente</a>
+        {% endif %}
+        <span>Page {{ pizzas.number }} sur {{ pizzas.paginator.num_pages }}.</span>
+        {% if pizzas.has_next %}
+            <a href="?page={{ pizzas.next_page_number }}">Page suivante</a>
+        {% endif %}
+    </p>
 {% endblock %}
 
 

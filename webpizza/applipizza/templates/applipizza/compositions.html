@@ -3,12 +3,21 @@
 {%block title%}Les compositions{%endblock%}
 
 {%block content%}
-    <h2>Voici nos {{ compositions|length }} compositions</h2>
-    <ul>
+    <h2>Voici nos {{ nbCompositions }} compositions</h2>
+    <ul class="allcompos">
         {% for comp in compositions %}
             <li>
                 {{ comp }}
             </li>
         {% endfor %}
     </ul>
+    <p class="pagination">
+        {% if compositions.has_previous %}
+            <a href="?page={{ compositions.previous_page_number }}">Page précédente</a>
+        {% endif %}
+        <span>Page {{ compositions.number }} sur {{ compositions.paginator.num_pages }}.</span>
+        {% if compositions.has_next %}
+            <a href="?page={{ compositions.next_page_number }}">Page suivante</a>
+        {% endif %}
+    </p>
 {% endblock %}
