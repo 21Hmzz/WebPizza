@@ -1,18 +1,14 @@
-{% extends 'applipizza/base.html' %}
-
-{% block title %}Modification d'une pizza{% endblock %}
-
-{% block content %}
-    <h2>Modification d'une pizza</h2>
-    <form action="/pizzas/{{ pizza.idPizza}}/updated" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Modifier">
-
-    </form>
+{% extends 'applipizza/base.html' %} {% block title %}Modification d'une pizza
+{% endblock %} {% block content %}
+<h2>Modification d'une pizza</h2>
+<p>{{ errors }}</p>
+<form
+  action="/pizzas/{{ pizza.idPizza}}/updated"
+  method="post"
+  class="updatePizzaForm"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %} {{ form.as_p }}
+  <input type="submit" value="Modifier" />
+</form>
 {% endblock %}
-
-
-
-
-

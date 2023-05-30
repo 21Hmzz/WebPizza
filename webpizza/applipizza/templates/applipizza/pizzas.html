@@ -1,36 +1,76 @@
-{% extends 'applipizza/base.html' %}
-{% load static %}
+{% extends 'applipizza/base.html' %} {% load static %} {% block title %}Les
+pizzas{% endblock %} {% block content %}
+<h2 style="font-family: 'Darumadrop One', cursive">
+  Voici nos {{ nbPizzas }} pizzas
+</h2>
+<div class="promotions">
+  <h3>Promotions</h3>
+  <h4>Découvrez nos pizzas en promotion à -50% !</h4>
+  <ul>
+    {% for pizza in pizzas %} {% if pizza.promotions %}
+    <li>
+      <img
+        src="{% get_media_prefix %}{{ pizza.image }}"
+        alt=""
+        width="40"
+        height="40"
+      />
+      <br />
+      {{ pizza }}
+    </li>
+    {% endif %} {% endfor %}
+  </ul>
+</div>
+<ul class="allpizzas">
+  {% for pizza in pizzas %}
+  <li>
+    <div class="pizzaHeader">
+      <img
+        src="{% get_media_prefix %}{{ pizza.image }}"
+        alt=""
+        width="200"
+        height="200"
+      />
 
-{% block title %}Les pizzas{% endblock %}
+      {{ pizza }} {% if pizza.promotions %}
+      <span class="promotion">-50%</span>
+      {%endif %}
+    </div>
 
-{% block content %}
-    <h2 style="font-family: 'Darumadrop One', cursive;">Voici nos {{ nbPizzas }} pizzas</h2>
-    <ul class="allpizzas">
-        {% for pizza in pizzas %}
-            <li>
-                <img src="/{{ pizza.image }}" alt="" width="80" height="80">
-                {{ pizza }}
-                <a href="/pizzas/{{ pizza.idPizza }}">détails sur la pizza</a>
-                <small>               
-                <a href="/pizzas/{{ pizza.idPizza }}/update">Modifier</a>
-                <a href="/pizzas/{{ pizza.idPizza }}/delete">Supprimer</a>
-                </small>
+    <div class="notes">
+      <h3>Note moyenne</h3>
+      <p style="vertical-align: middle">
+        <i class="bx bx-star"></i> {{ pizza.moyenne }}
+      </p>
+    </div>
 
-            </li>
-        {% endfor %}
-    </ul>
-    <p class="pagination">
-        {% if pizzas.has_previous %}
-            <a href="?page={{ pizzas.previous_page_number }}">Page précédente</a>
-        {% endif %}
-        <span>Page {{ pizzas.number }} sur {{ pizzas.paginator.num_pages }}.</span>
-        {% if pizzas.has_next %}
-            <a href="?page={{ pizzas.next_page_number }}">Page suivante</a>
-        {% endif %}
-    </p>
+    <div class="btnPizza">
+      <a href="/pizzas/{{ pizza.idPizza }}">détails sur la pizza</a>
+      {% if user.is_authenticated %}
+      <small>
+        <a href="/pizzas/{{ pizza.idPizza }}/update">Modifier</a>
+        <a href="/pizzas/{{ pizza.idPizza }}/delete">Supprimer</a>
+      </small>
+      {% endif %}
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+<p class="pagination">
+  {% if pizzas.has_previous %}
+  <a href="?page={{ pizzas.previous_page_number }}">Page précédente</a>
+  {% endif %}
+  <span>Page {{ pizzas.number }} sur {{ pizzas.paginator.num_pages }}.</span>
+  {% if pizzas.has_next %}
+  <a href="?page={{ pizzas.next_page_number }}">Page suivante</a>
+  {% endif %}
+</p>
+
+<div class="avis">
+  <h3>Donnez votre avis</h3>
+  <form action="/avis/" method="post">
+    {% csrf_token %} {{ AvisForm }}
+    <input type="submit" value="Envoyer" />
+  </form>
+</div>
 {% endblock %}
-
-
-
-
-

@@ -25,11 +25,18 @@ class Pizza(models.Model):
     prix = models.DecimalField(
         max_digits=4, decimal_places=2, verbose_name="Le prix ")
     
-    image = models.ImageField(upload_to='static/applipizza/img/', verbose_name="L'image de la pizza")
+    image = models.ImageField( verbose_name="L'image de la pizza",null=True, blank=True)
+
+    promotions = models.BooleanField(
+        verbose_name="La pizza est-elle en promotion ?"
+    )
 
     def __str__(self):
 
-        return "Pizza " + self.nomPizza + " : " + str(self.prix) + "€"
+        if self.promotions:
+            return "Pizza " + self.nomPizza + " : " + str(self.prix/2) + "€ ("+str(self.prix)+"€)"
+        else:
+            return "Pizza " + self.nomPizza + " : " + str(self.prix) + "€"
 
 
 class Composition(models.Model):
@@ -47,3 +54,18 @@ class Composition(models.Model):
         ing = self.ingredient
         piz = self.pizza
         return "ingrédient " + ing.nomIngredient + " fait partie de la pizza " + piz.nomPizza + " (prix = "+str(piz.prix)+"€) (quantité = " + self.quantite+")"
+
+
+class Avis(models.Model):
+    class Meta:
+        unique_together = ('pizza', 'commentaire')
+    
+    idAvis = models.AutoField(primary_key=True)
+    nom = models.CharField(max_length=100, verbose_name="Votre nom")
+    note = models.IntegerField(verbose_name="La note", choices=[(i, i) for i in range(1, 6)])
+    commentaire = models.TextField(verbose_name="Votre commentaire")
+    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Avis sur la pizza " + self.pizza.nomPizza + " : " + self.commentaire + " (note = " + str(self.note) + "/5)"
+

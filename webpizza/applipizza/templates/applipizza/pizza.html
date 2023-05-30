@@ -1,47 +1,76 @@
-{%extends 'applipizza/base.html'%}
+{%extends 'applipizza/base.html'%} {% load static %}{%block title%}Détails de la
+pizza {%endblock%} {%block content%}
+<h2>Voici notre pizza</h2>
+{{ pizza }}
 
-{%block title%}Détails de la pizza {%endblock%}
-
-{%block content%}
-    <h2>Voici notre pizza </h2>
-  {{ pizza }}
-
-  <div class="descriptioncompo">
+<div class="descriptioncompo">
+  <img
+    src="{% get_media_prefix %}{{ pizza.image }}"
+    alt=""
+    width="180"
+    height="180"
+  />
+  <div class="descriptioncompotext">
     <h3>Composition</h3>
     <p>Votre pizza contient {{ compo|length }} ingrédients</p>
   </div>
+  <div class="avis">
+    <h3>Avis sur cette pizza</h3>
 
-  <table class="listeing">
-    <thead>
-        <tr>
-            <th>Ingredient</th>
-            <th>Quantité</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-  {% for ing in compo %}
+    {% for note in avis %}
+    <div class="avisliste">
+      <div class="note">
+        <p>Note : {{ note.note }}/5 par {{ note.nom }}</p>
+      </div>
+      <div class="commentaire">
+        <p>{{ note.commentaire }}</p>
+      </div>
+    </div>
+    <hr />
+    {% endfor %}
+  </div>
+</div>
+
+<table class="listeing">
+  <thead>
     <tr>
-        <td>{{ ing.nom}}</td>
-        <td>{{ ing.qte }}</td>
-
-        <td class="td_delete">
-            <a href="/pizzas/{{pizza.idPizza}}/deleteIngredient/{{ing.idComposition }}">Supprimer</a>
+      <th>Ingredient</th>
+      <th>Quantité</th>
+      {% if user.is_authenticated %}
+      <th>Action</th>
+      {% endif %}
     </tr>
-   
-{% endfor %}
-</tbody>
+  </thead>
+  <tbody>
+    {% for ing in compo %}
+    <tr>
+      <td>{{ ing.nom}}</td>
+      <td>{{ ing.qte }}</td>
+      {% if user.is_authenticated %}
+
+      <td class="td_delete">
+        <a
+          href="/pizzas/{{pizza.idPizza}}/deleteIngredient/{{ing.idComposition }}"
+          >Supprimer</a
+        >
+      </td>
+      {% endif %}
+    </tr>
+
+    {% endfor %}
+  </tbody>
 </table>
-<hr>
+<hr />
+{% if user.is_authenticated %}
 <div class="form">
-  <h2>
-    Ajouter un ingrédient
-  </h2>
-  <form class="addcomp_form" action="/pizzas/{{pizza.idPizza}}/addIngredient" method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Ajouter">
+  <h2>Ajouter un ingrédient</h2>
+  <form
+    class="addcomp_form"
+    action="/pizzas/{{pizza.idPizza}}/addIngredient"
+    method="post"
+  >
+    {% csrf_token %} {{ form }}
+    <input type="submit" value="Ajouter" />
   </form>
 </div>
-    
-{% endblock %}
+{% endif %} {% endblock %}

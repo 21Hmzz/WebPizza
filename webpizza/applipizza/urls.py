@@ -20,6 +20,6 @@ urlpatterns = [
     path('ingredients/', views.ingredients),
     path('ingredients/add', views.formulaireCreationIngredient),
     path('ingredients/create', views.creerIngredient),
-
-    path('compositions/', views.compositions)
+    path('compositions/', views.compositions),
+    path('avis/', views.avis),
 ]

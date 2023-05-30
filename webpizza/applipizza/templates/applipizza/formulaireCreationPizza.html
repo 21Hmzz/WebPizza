@@ -1,14 +1,13 @@
-{%extends 'applipizza/base.html'%}
-
-{%block title%}création d'une pizza{%endblock%}
-
-{%block content%}
-<h2>
-    Création d'une pizza
-</h2>
-<form class="addpizza" action="/pizzas/create" method="post" enctype="multipart/form-data"  >
-    {% csrf_token %}
-    {{ form.as_table }}
-    <input type="submit" value="Créer la pizza">
+{%extends 'applipizza/base.html'%} {%block title%}création d'une
+pizza{%endblock%} {%block content%}
+<h2>Création d'une pizza</h2>
+<form
+  class="addpizza"
+  action="/pizzas/create"
+  method="post"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %} {{form}}
+  <input type="submit" value="Créer la pizza" />
 </form>
 {% endblock %}
