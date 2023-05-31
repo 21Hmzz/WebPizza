@@ -122,7 +122,7 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "C:/Users/rechs/Desktop/IUT/django/webpizza-1/webpizza/media"
+MEDIA_ROOT = "/home/hbella/Documents/projets-django/webpizza/webpizza/media"
 STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

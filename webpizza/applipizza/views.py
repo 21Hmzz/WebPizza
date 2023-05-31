@@ -106,11 +106,27 @@ def supprimerIngredientDansPizzaPizza(request, pizza_id, composition_id):
 
     form = CompositionForm()
     lesPizzas = Pizza.objects.all()
+    nbPizzas = Pizza.objects.count()
+    AvisFormv = AvisForm()
+    page = request.GET.get('page')
+    for p in lesPizzas:
+        moyennePizza = Avis.objects.filter(pizza=p.idPizza).aggregate(Avg('note'))
+        if moyennePizza['note__avg'] is not None:
+            p.moyenne = moyennePizza['note__avg']
+        else:
+            p.moyenne = "Pas encore d'avis"
 
+    paginator = Paginator(lesPizzas, 3)
+    try:
+        lesPizzas = paginator.page(page)
+    except PageNotAnInteger:
+        lesPizzas = paginator.page(1)
+    except EmptyPage:
+        lesPizzas = paginator.page(paginator.num_pages)
     return render(
         request,
         "applipizza/pizzas.html",
-        {"pizzas": lesPizzas},
+        {"pizzas": lesPizzas, "nbPizzas": nbPizzas, "AvisForm": AvisFormv},
     )
 
 
@@ -198,6 +214,12 @@ def avis(request):
     nbPizzas = Pizza.objects.count()
     AvisFormv = AvisForm()
     page = request.GET.get('page')
+    for p in lesPizzas:
+        moyennePizza = Avis.objects.filter(pizza=p.idPizza).aggregate(Avg('note'))
+        if moyennePizza['note__avg'] is not None:
+            p.moyenne = moyennePizza['note__avg']
+        else:
+            p.moyenne = "Pas encore d'avis"
     paginator = Paginator(lesPizzas, 3)
     try:
         lesPizzas = paginator.page(page)
